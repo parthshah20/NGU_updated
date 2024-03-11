@@ -33,7 +33,7 @@ Write your equations in _Equations.txt file and execute the code_runner.py file.
 
 To execute code runner file
 ```
-python code_runner.py
+python code_runner.py --equations=<name of file with equations> --answers=<file where answers are printed> --constants=<file where constant values are stored>
 ```
 You can expect the answer now in _Answer.txt file.
 
@@ -50,6 +50,24 @@ This is the _Equations.txt file
 100*g-(100+9*10)*h-9*10*i-20*10*h**2-20*10*i**2 = 0
 100*h-(100+9*10)*i-9*10*j-20*10*i**2-20*10*j**2 = 0
 100*i-(100+9*10)*j-20*10*j**2 = 0
+```
+- In this implementation, we can replace values with a constant variable and specify that variable in a different file
+- For example, we can replace 100+23*9 with _z_:
+```
+5-(_z_)*abc+23*9*b-23*20*abc**2+23*20*b**2 = 0
+100*abc-(_z_)*b+23*9*c-23*20*b**2+23*20*c**2 = 0
+100*b-(_z_)*c+23*9*d-23*20*c**2+23*20*d**2 = 0
+100*c-(_z_)*d+23*9*k-23*20*d**2+23*20*k**2 = 0
+100*d-(_z_)*k+23*9*f-23*20*k**2+23*20*f**2 = 0
+100*k-(_z_)*f+23*9*g-23*20*f**2+23*20*g**2 = 0
+0.039+100*f+(-100+9*23)*g-9*10*h+20*23*g**2-20*10*h**2 = 0
+100*g-(100+9*10)*h-9*10*i-20*10*h**2-20*10*i**2 = 0
+100*h-(100+9*10)*i-9*10*j-20*10*i**2-20*10*j**2 = 0
+100*i-(100+9*10)*j-20*10*j**2 = 0
+```
+Then in 'constants.txt'
+```
+_z_ = 100+23*9
 ```
 You run the code with
 ```
