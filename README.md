@@ -71,7 +71,7 @@ _z_ = 100+23*9
 ```
 You run the code with
 ```
-python code_runner.py
+python code_runner.py --equations=<name of file with equations> --answers=<file where answers are printed> --constants=<file where constant values are stored>
 ```
 The answer now reflects in _Answers.txt file
 ```
