@@ -1,7 +1,15 @@
 import gekko_solver
 import time
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--equations', type=str, default='_Equations1.txt')
+parser.add_argument('--constants', type=str, default='constants.txt')
+parser.add_argument('--answers', type=str, default='_Answers.txt')
+args = parser.parse_args()
+
 equations = []
-equations_file = '_Equations1.txt'
+equations_file = args.equations
 with open(equations_file, 'r') as f:
     for line in f:
         equations.append(line.strip())
@@ -9,9 +17,9 @@ with open(equations_file, 'r') as f:
 s = gekko_solver.Solution()
 
 # write answers to file 
-answers_file = '_Answers.txt'
+answers_file = args.answers
 start_time = time.time()
-answers = s.solution(equations, len(equations))
+answers = s.solution(equations, len(equations), args.constants)
 end_time = time.time()
 
 with open(answers_file, 'w') as f:
