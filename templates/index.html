@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equation Input</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Enter Equation Information</h2>
+        <form action="/submit" method="post">
+            <label for="first_file">Equation Filename:</label>
+            <input type="text" id="first_file" name="first_file" required>
+            
+            <label for="equations_1">Equations for Variables:</label>
+            <textarea id="equations_1" name="equations_1" rows="4" required></textarea>
+
+            <label for="second_file">Constants Filename:</label>
+            <input type="text" id="second_file" name="second_file" required>
+            
+            <label for="equations_2">Equations for Constants:</label>
+            <textarea id="equations_2" name="equations_2" rows="4" required></textarea>
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

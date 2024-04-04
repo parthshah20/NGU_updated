@@ -8,25 +8,27 @@ parser.add_argument('--constants', type=str, default='constants.txt')
 parser.add_argument('--answers', type=str, default='_Answers.txt')
 args = parser.parse_args()
 
-equations = []
-equations_file = args.equations
-with open(equations_file, 'r') as f:
-    for line in f:
-        equations.append(line.strip())
 
-s = gekko_solver.Solution()
+def run(eq_file, const_file, answer_file):
+    equations = []
+    equations_file = eq_file
+    with open(equations_file, 'r') as f:
+        for line in f:
+            equations.append(line.strip())
 
-# write answers to file 
-answers_file = args.answers
-start_time = time.time()
-answers = s.solution(equations, len(equations), args.constants)
-end_time = time.time()
+    s = gekko_solver.Solution()
 
-with open(answers_file, 'w') as f:
-    total_time = end_time - start_time
-    f.write(f'Total time: {total_time} seconds\n')
-    for key, value in answers.items():
-        var_name = key
-        var_value = value[0]
-        # write to the file
-        f.write(f'{var_name} = {var_value}\n')
+    # write answers to file 
+    answers_file = answer_file
+    start_time = time.time()
+    answers = s.solution(equations, len(equations), const_file)
+    end_time = time.time()
+
+    with open(answers_file, 'w') as f:
+        total_time = end_time - start_time
+        f.write(f'Total time: {total_time} seconds\n')
+        for key, value in answers.items():
+            var_name = key
+            var_value = value[0]
+            # write to the file
+            f.write(f'{var_name} = {var_value}\n')
