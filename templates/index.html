@@ -1,29 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equation Input</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>File Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .window {
+            width: 45%;
+            height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .block {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Enter Equation Information</h2>
-        <form action="/submit" method="post">
-            <label for="first_file">Equation Filename:</label>
-            <input type="text" id="first_file" name="first_file" required>
-            
-            <label for="equations_1">Equations for Variables:</label>
-            <textarea id="equations_1" name="equations_1" rows="4" required></textarea>
+    <h1>File Management</h1>
 
-            <label for="second_file">Constants Filename:</label>
-            <input type="text" id="second_file" name="second_file" required>
-            
-            <label for="equations_2">Equations for Constants:</label>
-            <textarea id="equations_2" name="equations_2" rows="4" required></textarea>
-            
-            <input type="submit" value="Submit">
+    <div class="container">
+        <div class="window">
+            <h2>Working File</h2>
+            <pre>
+                {% for line in file1 %}
+                    {{ line }}
+                {% endfor %}
+            </pre>
+        </div>
+        <div class="window">
+            <h2>Answers</h2>
+            <pre>
+                {% for line in file2 %}
+                    {{ line }}
+                {% endfor %}
+            </pre>
+        </div>
+    </div>
+
+    <div class="block">
+        <form action="{{ url_for('update_file') }}" method="post">
+            <label for="file1_name">File 1 Name:</label>
+            <input type="text" id="file1_name" name="file1_name" required>
+            <button type="submit">Update</button>
         </form>
     </div>
+
+    <div class="block">
+        <form action="{{ url_for('append_file1') }}" method="post">
+            <label for="append_text">Append Text to File 1:</label>
+            <input type="text" id="append_text" name="append_text" required>
+            <button type="submit">Append</button>
+        </form>
+    </div>
+
+    <div class="block">
+        <form action="{{ url_for('delete_line') }}" method="post">
+            <label for="line_number">Line Number to Delete:</label>
+            <input type="number" id="line_number" name="line_number" required>
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+
+    <div class="block">
+        <form action="{{ url_for('append_file3') }}" method="post">
+            <label for="file3_name">File 3 Name:</label>
+            <input type="text" id="file3_name" name="file3_name" required>
+            <label for="append_text_file3">Append Text to File 3:</label>
+            <input type="text" id="append_text_file3" name="append_text_file3" required>
+            <button type="submit">Append</button>
+        </form>
+    </div>
+
+    <h2>Equations file</h2>
+    <div id="textbox-container">
+        <div class="textbox" contenteditable="true">Equation</div>
+    </div>
+    <button onclick="addTextBox()">Add Equation</button>
+    <button onclick="saveToFile()">Save to Equations file</button>
+
+
+    <h2>Coefficient file</h2>
+    <div id="textbox-container2">
+        <div class="textbox2" contenteditable="true">Equation</div>
+    </div>
+    <button onclick="addTextBox2()">Add Equation</button>
+    <button onclick="saveToFile2()">Save to Coefficient file</button>
+
+    <script>
+        function addTextBox() {
+            // Create a new textbox element
+            var newTextBox = document.createElement('div');
+            newTextBox.className = 'textbox';
+            newTextBox.contentEditable = true;
+            newTextBox.textContent = 'New editable textbox';
+
+            // Add the new textbox to the container
+            document.getElementById('textbox-container').appendChild(newTextBox);
+        }
+
+        function saveToFile() {
+            // Get all the textbox values
+            var textboxes = document.getElementsByClassName('textbox');
+            var values = [];
+            for (var i = 0; i < textboxes.length; i++) {
+                values.push(textboxes[i].textContent);
+            }
+
+            // Send the values to the server to save to a file
+            fetch('/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ values: values }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function addTextBox2() {
+            // Create a new textbox element
+            var newTextBox = document.createElement('div');
+            newTextBox.className = 'textbox2';
+            newTextBox.contentEditable = true;
+            newTextBox.textContent = 'New editable textbox';
+
+            // Add the new textbox to the container
+            document.getElementById('textbox-container2').appendChild(newTextBox);
+        }
+
+        function saveToFile2() {
+            // Get all the textbox values
+            var textboxes = document.getElementsByClassName('textbox2');
+            var values = [];
+            for (var i = 0; i < textboxes.length; i++) {
+                values.push(textboxes[i].textContent);
+            }
+
+            // Send the values to the server to save to a file
+            fetch('/save_coeff', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ values: values }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
 </body>
 </html>
