@@ -13,6 +13,7 @@ def return_filecontent(file_name2, calculate=True):
             file1_content.append(str(count) + '. ' + line)
             count += 1
     try:
+        print('-----------------Here-------------------')
         if calculate:
             code_runner.run(name_dict.return_name(2), None, 'temp_file.txt')
             code_runner.run(name_dict.return_name(0), 'temp_file.txt', file_name2)
@@ -31,7 +32,7 @@ app = Flask(__name__, template_folder='templates')
 
 @app.route('/')
 def index():
-    file1_content, file2_content = return_filecontent('_Answers.txt', calculate=False)
+    file1_content, file2_content = return_filecontent('_Answers.txt')
     return render_template('index.html', file1=file1_content, file2=file2_content)
 
 @app.route('/update_file', methods=['POST'])

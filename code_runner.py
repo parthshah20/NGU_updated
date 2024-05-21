@@ -3,7 +3,7 @@ import time
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--equations', type=str, default='_Equations1.txt')
+parser.add_argument('--equations', type=str, default='_Equations.txt')
 parser.add_argument('--constants', type=str, default='_Coefficient.txt')
 parser.add_argument('--answers', type=str, default='_Answers.txt')
 args = parser.parse_args()
